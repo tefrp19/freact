@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>requestIdleCallback用法</title>
+    <style>
+        @keyframes move {
+            0% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(100px);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        div {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000;
+            background: aquamarine;
+        }
+
+        .movingDiv {
+            animation: move 1s infinite linear reverse;
+        }
+
+    </style>
+</head>
+<body style="height: 1000px">
+<div class="movingDiv"></div>
+<input type="text" autofocus>
+<br/>
+<button>添加多个li</button>
+
+<script>
+
+
+    document.querySelector('input').addEventListener('keydown', function () {
+        console.log(this.value)
+    })
+
+    document.querySelector('button').addEventListener('click', () => {
+        // addDivs()
+        requestIdleCallback(newAddDivs)
+    })
+
+
+    function addDivs() {
+        const num = 200000
+        for (let i = 0; i < num; i++) {
+            const divDom = document.createElement('div')
+            document.body.appendChild(divDom)
+        }
+        console.log('任务完成')
+    }
+
+    // 参考文章：https://developer.chrome.com/blog/using-requestidlecallback/#using-requestidlecallback
+    let remainingDivNum = 200000 // 需要完成任务的总数
+    function newAddDivs(deadline) {
+        let shouldYield = false
+        while (remainingDivNum > 0 && !shouldYield) {
+            const divDom = document.createElement('div')
+            document.body.appendChild(divDom)
+            remainingDivNum--
+            shouldYield = deadline.timeRemaining() < 1
+        }
+
+        if (remainingDivNum > 0) {
+            requestIdleCallback(newAddDivs)
+        } else {
+            console.log('任务完成')
+        }
+    }
+
+</script>
+</body>
+</html>
