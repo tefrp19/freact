@@ -47,8 +47,8 @@
     })
 
     document.querySelector('button').addEventListener('click', () => {
-        // addDivs()
-        requestIdleCallback(newAddDivs)
+        // addDivs() // addDivs执行时用户不能进行交互
+        requestIdleCallback(newAddDivs) // newAddDivs执行时用户可以进行交互
     })
 
 
