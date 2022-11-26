@@ -1,4 +1,4 @@
-// 第1版递归创建dom元素，会导致渲染阻塞，所以引入concurrent mode和fiber
+// 第1版递归创建dom元素，会阻塞渲染，所以引入concurrent mode和fiber
 function createElement(type, props, ...children) {
     function createTextElement(text) {
         return {

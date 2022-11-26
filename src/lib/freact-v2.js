@@ -1,4 +1,3 @@
-// 第2版问题：node一个一个添加到dom上，用户会看到不完整的UI，引入commit phases
 function createElement(type, props, ...children) {
     function createTextElement(text) {
         return {
@@ -38,16 +37,33 @@ function createDom(fiber) {
     return dom
 }
 
+function commitRoot() {
+    commitWork(wipRoot.child)
+    wipRoot = null
+}
+
+function commitWork(fiber) {
+    if (!fiber) {
+        return
+    }
+    const domParent = fiber.parent.dom
+    domParent.appendChild(fiber.dom)
+    commitWork(fiber.child)
+    commitWork(fiber.sibling)
+}
+
 function render(element, container) {
-    nextUnitOfWork = {
+    wipRoot = {
         dom: container,
         props: {
             children: [element],
         },
     }
+    nextUnitOfWork = wipRoot
 }
 
 let nextUnitOfWork = null
+let wipRoot = null // fiber树根节点
 
 function workLoop(deadline) {
     let shouldYield = false // 是否让步
@@ -56,6 +72,9 @@ function workLoop(deadline) {
             nextUnitOfWork
         )
         shouldYield = deadline.timeRemaining() < 1 // timeRemaining()返回一个浮点数，表示当前闲置周期的预估剩余毫秒数，重复的访问这个属性用来判断当前线程的闲置时间是否可以在结束前执行更多的任务。
+    }
+    if (!nextUnitOfWork && wipRoot) { // 创建完了dom节点一次性递归添加到父节点
+        commitRoot()
     }
     requestIdleCallback(workLoop)
 }

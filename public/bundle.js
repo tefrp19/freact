@@ -1,5 +1,6 @@
 
 (function(l, r) { if (!l || l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (self.location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(self.document);
+// 第2版问题：node一个一个添加到dom上，用户会看到不完整的UI，引入commit phases
 function createElement(type, props, ...children) {
   function createTextElement(text) {
     return {
@@ -49,8 +50,21 @@ function workLoop(deadline) {
   requestIdleCallback(workLoop);
 }
 requestIdleCallback(workLoop);
+
+// fiber结构
+// const fiber = {
+//     type,dom类型（div、文本等）
+//     props,
+//     parent,
+//     sibling,
+//     child,第一个子节点
+//     dom: null,dom元素
+// }
+// fiber和work一一对应
 function performUnitOfWork(fiber) {
+  // debugger
   if (!fiber.dom) {
+    // debugger
     fiber.dom = createDom(fiber);
   }
   if (fiber.parent) {
@@ -85,6 +99,7 @@ function performUnitOfWork(fiber) {
     if (nextFiber.sibling) {
       return nextFiber.sibling;
     }
+    // debugger
     nextFiber = nextFiber.parent;
   }
 }
@@ -100,6 +115,6 @@ const App = FReact.createElement("div", {
   id: 'p1'
 }, "1"), FReact.createElement("p", null, "2"), FReact.createElement("p", null, "3"));
 
-console.log(App);
+console.log('APP：', App);
 const container = document.getElementById("root");
 FReact.render(App, container);
