@@ -1,3 +1,4 @@
+// 第2版完成了添加dom操作，第3版引入更新和删除操作
 function createElement(type, props, ...children) {
     function createTextElement(text) {
         return {
@@ -39,6 +40,7 @@ function createDom(fiber) {
 
 function commitRoot() {
     commitWork(wipRoot.child)
+    currentRoot = wipRoot
     wipRoot = null
 }
 
@@ -63,7 +65,8 @@ function render(element, container) {
 }
 
 let nextUnitOfWork = null
-let wipRoot = null // fiber树根节点
+let wipRoot = null // fiber树的根节点
+let currentRoot = null
 
 function workLoop(deadline) {
     let shouldYield = false // 是否让步

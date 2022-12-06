@@ -1,6 +1,7 @@
 const babel = require("@rollup/plugin-babel");
 const serve = require("rollup-plugin-serve");
 const livereload = require("rollup-plugin-livereload");
+const css = require("rollup-plugin-import-css");
 
 module.exports = {
     input: 'src/index.js',
@@ -18,5 +19,6 @@ module.exports = {
         livereload({
             watch: 'public',
         }),
+        css(),
     ]
 };
