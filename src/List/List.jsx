@@ -1,5 +1,5 @@
-import FReact from "../lib/freact";
-import ListItem from "./ListItem.jsx"
+import FReact from "freactjs";
+import ListItem from "./ListItem"
 
 export default function List() {
     const [data, setData] = FReact.useState([])

@@ -1,5 +1,5 @@
-import FReact from "./lib/freact.js";
-import List from "./List/List.jsx";
+import FReact from "freactjs";
+import List from "./List/List";
 import './App.css'
 // const App = <div id={'test'} className={'test'}>
 //     <p id={'p1'}>2</p>

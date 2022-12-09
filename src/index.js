@@ -1,6 +1,5 @@
-import FReact from './lib/freact.js'
+import FReact from 'freactjs'
 import App from './App.jsx'
 
-console.log('APP：',App)
 const container = document.getElementById("root")
 FReact.render(App, container)

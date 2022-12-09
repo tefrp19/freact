@@ -1,4 +1,4 @@
-import FReact from "../lib/freact";
+import FReact from 'freactjs';
 
 export default function ListItem({item, setData}) {
     const {id, num} = item
@@ -6,10 +6,8 @@ export default function ListItem({item, setData}) {
         num:{num}
         <button onClick={() => {
             setData(data => {
-                const index=data.findIndex(item => item.id === id)
-                console.log(index)
+                const index = data.findIndex(item => item.id === id)
                 data.splice(index, 1)
-                console.log(data);
                 return [...data]
             })
         }}>删除

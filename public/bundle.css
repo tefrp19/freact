@@ -1,7 +1,3 @@
-.odd {
-    color: red;
-}
-
-.even {
-    color: blue;
+#root {
+    margin: 0 10px;
 }

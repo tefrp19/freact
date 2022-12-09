@@ -235,9 +235,7 @@ function ListItem({
     onClick: () => {
       setData(data => {
         const index = data.findIndex(item => item.id === id);
-        console.log(index);
         data.splice(index, 1);
-        console.log(data);
         return [...data];
       });
     }
@@ -267,6 +265,5 @@ function List() {
 
 const App = FReact.createElement(List, null);
 
-console.log('APP：', App);
 const container = document.getElementById("root");
 FReact.render(App, container);
